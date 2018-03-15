@@ -5,7 +5,7 @@ import weather from 'yahoo-weather'; // or require it
 import axios from 'axios'; // or require it 
 
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
-let city = 'toronto';
+let city = 'dubai';
 
 // Make a request for a user with a given ID
 
@@ -32,7 +32,7 @@ class App extends Component {
 
     axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`)
     .then(function (response) {
-      
+      console.log(response);
       currentComponent.setState({ 
         lat: response.data.coord.lat,
         lon: response.data.coord.lon,
@@ -44,7 +44,6 @@ class App extends Component {
         country: response.data.sys.country,
         sunrise: response.data.sys.sunrise,
         sunset: response.data.sys.sunset
-        
       })
       
     })
@@ -60,8 +59,9 @@ class App extends Component {
         
          {/* <header className="App-header"> */}
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
-          {/* <h1 className="App-title">{this.state.weather.location ? this.state.weather.location.city : null}</h1> */}
-          <h1 className="App-title">{this.state.lat}</h1>
+          <h1 className="weather__city">{this.state.city}</h1>
+          
+          {/* <h1 className="App-title">{this.state.lat}</h1> */}
         {/* </header> */}
         {/* <p className="App-intro"> */}
           {/* {this.state.data.} */}
