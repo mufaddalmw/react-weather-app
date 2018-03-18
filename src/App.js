@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import weather from 'yahoo-weather'; // or require it 
 import axios from 'axios'; // or require it 
-
+import SunSVG from './sun.js';
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
 let city = 'dubai';
 
@@ -31,14 +30,14 @@ class App extends Component {
     let currentComponent = this;
 
     axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`)
-    .then(function (response) {
+    .then((response) => {
       // console.log(response);
       currentComponent.setState({ 
         lat: response.data.coord.lat,
         lon: response.data.coord.lon,
-        desc: response.data.weather[0].description,
+        desc: this.weatherIcon(response.data.weather[0].description),
         icon: response.data.weather[0].icon,
-        temp: response.data.main.temp,
+        temp: this.kelvinToTemp(response.data.main.temp),
         wind: response.data.wind.speed,
         city: response.data.name,
         country: response.data.sys.country,
@@ -52,10 +51,22 @@ class App extends Component {
     });
 
   }
-  // kelvinToTemp = () => {
-  //   this.setState({ temp: this.state.temp - 273.15 });
-  // }
+  kelvinToTemp(temp) {
+    return (temp - 273.15).toFixed(0)
+  }
+  weatherIcon(desc){
+    switch (desc) {
+      
+      case 'clear sky':
+        return (<SunSVG className='weather__icon' />);
+      
+
+      default:
+        return <SunSVG />
+    }
+  }
   render() {
+    // this.backcolor()
     return (
       <div className="App">
         
@@ -63,10 +74,9 @@ class App extends Component {
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <h1 className="weather__city">{this.state.city} {this.state.country}</h1>
           <div>{this.state.desc}</div>
+          {/* <div>{this.state.icon}</div> */}
           <div>{this.state.temp}</div>
-          <div>{this.state.icon}</div>
-          <div>{this.kelvinToTemp}</div>
-          <div>{this.state.wind}</div>
+          <div>Wind: {this.state.wind}</div>
           <div>{this.state.sunrise}</div>
           <div>{this.state.sunset}</div>
           {/* <h1 className="App-title">{this.state.lat}</h1> */}
