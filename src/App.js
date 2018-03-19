@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import weather from 'yahoo-weather'; // or require it 
 import axios from 'axios'; // or require it 
-import SunSVG from './sun.js';
+import WeatherIcon from './weather-icons.js';
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
-let city = 'dubai';
+let city = 'london';
 
 // Make a request for a user with a given ID
-
-
 
 class App extends Component {
   constructor(props) {
@@ -35,14 +32,14 @@ class App extends Component {
       currentComponent.setState({ 
         lat: response.data.coord.lat,
         lon: response.data.coord.lon,
-        desc: this.weatherIcon(response.data.weather[0].description),
-        icon: response.data.weather[0].icon,
+        desc: response.data.weather[0].description,
+        icon: <WeatherIcon condition={response.data.weather[0].icon} />,
         temp: this.kelvinToTemp(response.data.main.temp),
         wind: response.data.wind.speed,
         city: response.data.name,
         country: response.data.sys.country,
-        sunrise: response.data.sys.sunrise,
-        sunset: response.data.sys.sunset
+        sunrise: this.convertTimeStamp(response.data.sys.sunrise),
+        sunset: this.convertTimeStamp(response.data.sys.sunset),
       })
       
     })
@@ -54,17 +51,18 @@ class App extends Component {
   kelvinToTemp(temp) {
     return (temp - 273.15).toFixed(0)
   }
-  weatherIcon(desc){
-    switch (desc) {
-      
-      case 'clear sky':
-        return (<SunSVG className='weather__icon' />);
-      
+  convertTimeStamp(timestamp){
+    var date = new Date(timestamp * 1000);
+    // Hours part from the timestamp
+    var hours = date.getHours();
+    // Minutes part from the timestamp
+    var minutes = "0" + date.getMinutes();
 
-      default:
-        return <SunSVG />
-    }
+    // Will display time in 10:30:23 format
+    var time = hours + ':' + minutes.substr(-2);
+    return (time);
   }
+  
   render() {
     // this.backcolor()
     return (
@@ -74,11 +72,11 @@ class App extends Component {
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <h1 className="weather__city">{this.state.city} {this.state.country}</h1>
           <div>{this.state.desc}</div>
-          {/* <div>{this.state.icon}</div> */}
-          <div>{this.state.temp}</div>
-          <div>Wind: {this.state.wind}</div>
-          <div>{this.state.sunrise}</div>
-          <div>{this.state.sunset}</div>
+          <div>{this.state.icon}</div>
+          <div>{this.state.temp} <sup>o</sup>C</div>
+          <div>Wind: {this.state.wind} km/h</div>
+          <div>Sunrise: {this.state.sunrise}</div>
+          <div>Sunset: {this.state.sunset}</div>
           {/* <h1 className="App-title">{this.state.lat}</h1> */}
         {/* </header> */}
         {/* <p className="App-intro"> */}
