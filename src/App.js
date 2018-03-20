@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios'; // or require it 
 import WeatherIcon from './weather-icons.js';
+import Search from './search.js';
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
-let city = 'london';
+
 
 // Make a request for a user with a given ID
 
@@ -22,36 +23,13 @@ class App extends Component {
       sunrise: null,
       sunset: null
     }
-  }
-  componentDidMount() {
-    let currentComponent = this;
-
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`)
-    .then((response) => {
-      // console.log(response);
-      currentComponent.setState({ 
-        lat: response.data.coord.lat,
-        lon: response.data.coord.lon,
-        desc: response.data.weather[0].description,
-        icon: <WeatherIcon condition={response.data.weather[0].icon} />,
-        temp: this.kelvinToTemp(response.data.main.temp),
-        wind: response.data.wind.speed,
-        city: response.data.name,
-        country: response.data.sys.country,
-        sunrise: this.convertTimeStamp(response.data.sys.sunrise),
-        sunset: this.convertTimeStamp(response.data.sys.sunset),
-      })
-      
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
+    this.handleSearch('london');
   }
   kelvinToTemp(temp) {
     return (temp - 273.15).toFixed(0)
   }
   convertTimeStamp(timestamp){
+    // convert timestamp into milliseconds
     var date = new Date(timestamp * 1000);
     // Hours part from the timestamp
     var hours = date.getHours();
@@ -62,14 +40,42 @@ class App extends Component {
     var time = hours + ':' + minutes.substr(-2);
     return (time);
   }
+  handleSearch(term){
+    let currentComponent = this;
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
+      .then((response) => {
+        // console.log(response);
+        currentComponent.setState({
+          lat: response.data.coord.lat,
+          lon: response.data.coord.lon,
+          desc: response.data.weather[0].description,
+          icon: <WeatherIcon condition={response.data.weather[0].icon} />,
+          temp: this.kelvinToTemp(response.data.main.temp),
+          wind: response.data.wind.speed,
+          city: response.data.name,
+          country: response.data.sys.country,
+          sunrise: this.convertTimeStamp(response.data.sys.sunrise),
+          sunset: this.convertTimeStamp(response.data.sys.sunset),
+        })
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    // this.setState({
+    //   videos: videos,
+    //   selectedVideo: videos[0]
+    // });
+  }
   
   render() {
-    // this.backcolor()
+    
+    const handleSearch = (term) => { this.handleSearch(term) };
     return (
       <div className="App">
-        
-         {/* <header className="App-header"> */}
-          {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        <Search onSearchTermChange={handleSearch} />
+
           <h1 className="weather__city">{this.state.city} {this.state.country}</h1>
           <div>{this.state.desc}</div>
           <div>{this.state.icon}</div>
@@ -77,11 +83,7 @@ class App extends Component {
           <div>Wind: {this.state.wind} km/h</div>
           <div>Sunrise: {this.state.sunrise}</div>
           <div>Sunset: {this.state.sunset}</div>
-          {/* <h1 className="App-title">{this.state.lat}</h1> */}
-        {/* </header> */}
-        {/* <p className="App-intro"> */}
-          {/* {this.state.data.} */}
-        {/* </p> */}
+        
       </div>
     );
   }
