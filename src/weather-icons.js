@@ -11,34 +11,35 @@ var WeatherIcon = ({condition}) => {
     switch (condition) {
 
         case '01d':
+        case '01n':
             return (<SunSVG className='weather__icon' />);
 
         case '02d':
-            return (<CloudySVG className='weather__icon' />);
-
         case '03d':
-            return (<CloudySVG className='weather__icon' />);
-
         case '04d':
+        case '02n':
+        case '03n':
+        case '04n':
             return (<CloudySVG className='weather__icon' />);
 
         case '09d':
-            return (<RainSVG className='weather__icon' />);
-
         case '10d':
+        case '09n':
+        case '10n':
             return (<RainSVG className='weather__icon' />);
 
         case '11d':
-            return (<StormSVG className='weather__icon' />);
-
         case '13d':
+        case '11n':
+        case '13n':
             return (<SnowSVG className='weather__icon' />);
 
         case '50d':
+        case '50n':
             return (<MistSVG className='weather__icon' />);
 
         default:
-            return <SunSVG />
+            return <SunSVG className='weather__icon' />
     }
 }
 

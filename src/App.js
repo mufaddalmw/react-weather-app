@@ -3,12 +3,9 @@ import './App.css';
 import axios from 'axios'; // or require it 
 import WeatherIcon from './weather-icons.js';
 import Search from './search.js';
+import ErrorMsg from './error.js';
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
-
-
-// Make a request for a user with a given ID
-
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,11 +38,10 @@ class App extends Component {
     return (time);
   }
   handleSearch(term){
-    let currentComponent = this;
     axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
       .then((response) => {
-        // console.log(response);
-        currentComponent.setState({
+        console.log(response)
+        this.setState({
           lat: response.data.coord.lat,
           lon: response.data.coord.lon,
           desc: response.data.weather[0].description,
@@ -61,32 +57,46 @@ class App extends Component {
       })
       .catch(function (error) {
         console.log(error);
-      });
 
-    // this.setState({
-    //   videos: videos,
-    //   selectedVideo: videos[0]
-    // });
+      });
+  }
+
+  // temp color
+  backgroundColor(){
+    console.log(this.state.temp);
+    if (this.state.temp < 10){
+      document.body.style.backgroundColor = '#2b81b7';
+    }
+    else if (this.state.temp > 10 && this.state.temp < 20){
+      document.body.style.backgroundColor = '#3598db';
+    }
+    else if (this.state.temp > 20 && this.state.temp < 25){
+      document.body.style.backgroundColor = '#f1c40f';
+    }
+    else if (this.state.temp > 25 && this.state.temp < 35) {
+      document.body.style.backgroundColor = '#f39b12';
+    }
+    else {
+      document.body.style.backgroundColor = '#e67f23';
+    }
   }
   
   render() {
-    
+    this.backgroundColor()
+
     const handleSearch = (term) => { this.handleSearch(term) };
     return (
       <div className="App">
         <Search onSearchTermChange={handleSearch} />
-
-          <h1 className="weather__city">{this.state.city} {this.state.country}</h1>
+        <ErrorMsg message="City not found."/>
+          <h1 className="weather__city">{this.state.city}, {this.state.country}</h1>
           <div>{this.state.desc}</div>
           <div>{this.state.icon}</div>
           <div>{this.state.temp} <sup>o</sup>C</div>
           <div>Wind: {this.state.wind} km/h</div>
           <div>Sunrise: {this.state.sunrise}</div>
-          <div>Sunset: {this.state.sunset}</div>
-        
+          <div>Sunset: {this.state.sunset}</div>        
       </div>
     );
   }
 }
-
-export default App;

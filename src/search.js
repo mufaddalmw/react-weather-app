@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-
-
 export default class Search extends Component {
-    
     onInputChange(term) {
         this.setState({ term });
-        
     }
+    
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.onSearchTermChange(this.state.term)

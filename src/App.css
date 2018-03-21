@@ -1,3 +1,6 @@
+body {
+  transition:0.2s;
+}
 .App {
   padding: 1rem;
 }
