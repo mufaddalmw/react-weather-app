@@ -4,6 +4,7 @@ import axios from 'axios'; // or require it
 import WeatherIcon from './weather-icons.js';
 import Search from './search.js';
 import ErrorMsg from './error.js';
+import LocationMap from './map.js';
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
 export default class App extends Component {
   constructor(props) {
@@ -18,7 +19,9 @@ export default class App extends Component {
       city: null,
       country: null,
       sunrise: null,
-      sunset: null
+      sunset: null,
+      errorText: null,
+      weatherCategory: null
     }
     this.handleSearch('london');
   }
@@ -52,25 +55,29 @@ export default class App extends Component {
           country: response.data.sys.country,
           sunrise: this.convertTimeStamp(response.data.sys.sunrise),
           sunset: this.convertTimeStamp(response.data.sys.sunset),
+          errorText: null,
+          weatherCategory: response.data.weather[0].main
         })
-
+        
       })
-      .catch(function (error) {
+      .catch( (error) => {
         console.log(error);
+        this.setState({
+          errorText: 'City not found'
+        })
 
       });
   }
 
   // temp color
   backgroundColor(){
-    console.log(this.state.temp);
-    if (this.state.temp < 10){
+    if (this.state.temp <= 10 || this.state.weatherCategory == 'Rain' || this.state.weatherCategory == 'rain'){
       document.body.style.backgroundColor = '#2b81b7';
     }
-    else if (this.state.temp > 10 && this.state.temp < 20){
+    else if (this.state.temp > 10 && this.state.temp < 15){
       document.body.style.backgroundColor = '#3598db';
     }
-    else if (this.state.temp > 20 && this.state.temp < 25){
+    else if (this.state.temp > 15 && this.state.temp < 25){
       document.body.style.backgroundColor = '#f1c40f';
     }
     else if (this.state.temp > 25 && this.state.temp < 35) {
@@ -88,7 +95,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <Search onSearchTermChange={handleSearch} />
-        <ErrorMsg message="City not found."/>
+        <ErrorMsg message={this.state.errorText}/>
           <h1 className="weather__city">{this.state.city}, {this.state.country}</h1>
           <div>{this.state.desc}</div>
           <div>{this.state.icon}</div>
@@ -96,6 +103,7 @@ export default class App extends Component {
           <div>Wind: {this.state.wind} km/h</div>
           <div>Sunrise: {this.state.sunrise}</div>
           <div>Sunset: {this.state.sunset}</div>        
+          <LocationMap/>
       </div>
     );
   }
