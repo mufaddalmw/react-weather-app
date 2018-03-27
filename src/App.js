@@ -103,7 +103,7 @@ export default class App extends Component {
           <div>Wind: {this.state.wind} km/h</div>
           <div>Sunrise: {this.state.sunrise}</div>
           <div>Sunset: {this.state.sunset}</div>        
-          <LocationMap/>
+          {/* <LocationMap/> */}
       </div>
     );
   }
