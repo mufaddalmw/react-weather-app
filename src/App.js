@@ -41,7 +41,7 @@ export default class App extends Component {
     return (time);
   }
   handleSearch(term){
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${term}&appid=${apiKey}`)
       .then((response) => {
         console.log(response)
         this.setState({
