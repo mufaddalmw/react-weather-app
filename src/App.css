@@ -30,15 +30,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-.weather__city {
-  font-size: 3rem;
-  text-transform: capitalize;
-  font-weight: 300;
-}
-.weather__icon {
-  fill: white;
-  width: 64px;
-}
 .search__input {
     display: inline-block;
     vertical-align: top;
@@ -67,7 +58,7 @@ body {
     appearance: none;
 }
 .button {
-  display: inline-block;
+    display: inline-block;
     vertical-align: top;
     margin: 0 0 1rem 0;
     font-family: inherit;
@@ -83,4 +74,37 @@ body {
     cursor: pointer;
     background-color: #1779ba;
     color: #fefefe;
+}
+.weather {
+  text-align: center;
+}
+.weather__city {
+  font-size: 3rem;
+  text-transform: capitalize;
+  font-weight: 300;
+}
+.weather__icon {
+  fill: #fff;
+  width: 78px;
+  margin: 0 auto;
+}
+.weather__desc {
+  text-transform: capitalize;
+  margin-bottom: 1rem;
+}
+.weather__temp {
+  margin-top: 2rem;
+}
+.weather__temp-num {
+  font-size: 3rem;
+  display: inline-block;
+  vertical-align: top;
+}
+.weather__wind {
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 1rem;
+}
+.weather__sun-time {
+  margin-top: 1rem;
 }

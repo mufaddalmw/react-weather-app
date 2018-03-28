@@ -93,16 +93,18 @@ export default class App extends Component {
 
     const handleSearch = (term) => { this.handleSearch(term) };
     return (
-      <div className="App">
+      <div className="App weather">
         <Search onSearchTermChange={handleSearch} />
         <ErrorMsg message={this.state.errorText}/>
           <h1 className="weather__city">{this.state.city}, {this.state.country}</h1>
-          <div>{this.state.desc}</div>
-          <div>{this.state.icon}</div>
-          <div>{this.state.temp} <sup>o</sup>C</div>
-          <div>Wind: {this.state.wind} km/h</div>
-          <div>Sunrise: {this.state.sunrise}</div>
-          <div>Sunset: {this.state.sunset}</div>        
+          <div className="weather__desc">{this.state.desc}</div>
+          <div className="weather__icon">{this.state.icon}</div>
+          <div className="weather__temp"><span className="weather__temp-num">{this.state.temp}</span> <sup>o</sup>C
+            <span className="weather__wind">Wind: {this.state.wind} km/h</span>
+          </div>
+          
+        <div className="weather__sun-time"><small>Sunrise:</small> {this.state.sunrise} | <small>Sunset:</small> {this.state.sunset}</div>
+          
           {/* <LocationMap/> */}
       </div>
     );
