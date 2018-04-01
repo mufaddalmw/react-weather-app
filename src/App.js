@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios'; // or require it 
+import axios from 'axios';
 import WeatherIcon from './weather-icons.js';
 import Search from './search.js';
 import ErrorMsg from './error.js';
