@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import WeatherIcon from './weather-icons.js';
 import Search from './search.js';
+import Header from './header.js';
 import ErrorMsg from './error.js';
 import LocationMap from './map.js';
 const apiKey = 'e3d241b4c80e6e87dcaa0979d11b47cc';
@@ -94,6 +95,7 @@ export default class App extends Component {
     const handleSearch = (term) => { this.handleSearch(term) };
     return (
       <div className="App weather">
+        <Header/>
         <Search onSearchTermChange={handleSearch} />
         <ErrorMsg message={this.state.errorText}/>
           <h1 className="weather__city">{this.state.city}, {this.state.country}</h1>

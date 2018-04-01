@@ -2,7 +2,7 @@ body {
   transition:0.2s;
 }
 .App {
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 .App-logo {
@@ -107,4 +107,26 @@ body {
 }
 .weather__sun-time {
   margin-top: 1rem;
+}
+.header {
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+.header {
+  background: rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+.header__logo h1 {
+  font-size:1rem;
+  margin: 0;
+}
+.header__name{
+  font-size: 0.8rem;
+}
+.header__name a {
+  border-bottom: dotted 1px #fff;
+  color: #fff;
+  text-decoration: none;
 }
