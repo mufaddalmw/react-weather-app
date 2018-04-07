@@ -72,7 +72,7 @@ export default class App extends Component {
 
   // temp color
   backgroundColor(){
-    if (this.state.temp <= 10 || this.state.weatherCategory == 'Rain' || this.state.weatherCategory == 'rain'){
+    if (this.state.temp <= 10 || this.state.weatherCategory === 'Rain' || this.state.weatherCategory === 'rain'){
       document.body.style.backgroundColor = '#2b81b7';
     }
     else if (this.state.temp > 10 && this.state.temp < 15){
